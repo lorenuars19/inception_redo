@@ -25,7 +25,8 @@ endef
 all: set_password down up
 
 test:
-	docker build . -t test && docker run
+	rm -rf ./data/
+	docker build . -t test && docker run -v ${PWD}/data/www/:/www/ -v ${PWD}/data/db:/var/lib/mysql/ -it -p80:80 test "/bin/zsh"
 
 up:
 	$(DOCKERCP) up --detach --build --wait
