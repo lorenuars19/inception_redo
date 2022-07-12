@@ -44,6 +44,12 @@ curl
 COPY ./wordpress.sql /root/wordpress.sql
 WORKDIR /www/
 
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+&& chmod +x wp-cli.phar \
+&& mv wp-cli.phar /bin/wp
+
+RUN wp core download --path=/www/wordpress --allow-root --locale=en_US --force
+
 ################################################################################ WordPress >
 
 COPY ./setup.sh /tmp/setup.sh
