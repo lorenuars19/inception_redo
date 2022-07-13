@@ -29,7 +29,7 @@ test:
 	# mkdir -p ./data/
 	# mkdir -p ./data/www
 	# mkdir -p ./data/mysql
-	docker build . -t test && docker run -v ${PWD}/data/www/:/www/ -v ${PWD}/data/mysql:/var/lib/mysql/ -it --privileged -p80:80 -p'443:443' test "/bin/zsh"
+	docker build . -t test && docker run -v ${PWD}/data/www/:/www/ -v ${PWD}/data/mysql:/var/lib/mysql/ -it --privileged -p'443:443' test "/bin/zsh"
 
 up:
 	$(DOCKERCP) up --detach --build --wait

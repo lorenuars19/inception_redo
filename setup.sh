@@ -77,10 +77,12 @@ wp core config --path=/www/wordpress --allow-root --url=localhost --dbhost=local
 chmod 744 ./wordpress/wp-config.php
 echo =========================================================================== WP INSTALL
 wp core install --path=/www/wordpress --allow-root --url=lorenuar.42.fr --title="Title" --admin_name=wordpress_admin --admin_password=pswd --admin_email=admin@lorenuar.42.fr
+
+# /usr/sbin/php-fpm8 --nodaemonize &
 ################################################################################ WordPress >
 
 ################################################################################ NGINX <
-/usr/sbin/nginx
+/usr/sbin/nginx &
 ################################################################################ NGINX >
 
 URL=http://localhost:80
@@ -90,7 +92,7 @@ echo ${URL}
 echo ${URLSSL}
 
 curl ${URL}
-curl ${URLSSL}
+curl -k ${URLSSL}
 
 nginx -T > /www/.log.conf
 
