@@ -2,10 +2,10 @@ FROM alpine:3.16
 
 ################################################################################ NGINX <
 # ZSH REMOVE BEFORE CORR
-RUN apk -U upgrade && apk add zsh
+RUN apk -U upgrade && apk add zsh vim
 
 # NGINX
-RUN apk -U upgrade && apk add nginx
+RUN apk -U upgrade && apk add nginx awall iptables ip6tables
 
 # Add user www and set permissions
 RUN adduser -D -g 'www' www \
@@ -22,8 +22,10 @@ RUN mkdir -p /nginx/ && mkdir -p /etc/nginx/ssl \
 && openssl x509 -days 365 -in /etc/nginx/ssl/self.csr \
 	-signkey /etc/nginx/ssl/self.key -out /etc/nginx/ssl/self.crt
 
-COPY ./nginx.conf /etc/nginx/conf.d/wordpress.conf
+COPY ./nginx.conf /etc/nginx/http.d/default.conf
 COPY ./index.html /www/index.html
+
+EXPOSE 443
 
 ################################################################################ NGINX >
 

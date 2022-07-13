@@ -1,0 +1,6 @@
+services:
+  nginx:
+    image: nginx
+    image-name: nginx
+    ports:
+    - "443:443"

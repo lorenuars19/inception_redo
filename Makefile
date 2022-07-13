@@ -25,8 +25,11 @@ endef
 all: set_password down up
 
 test:
-	rm -rf ./data/
-	docker build . -t test && docker run -v ${PWD}/data/www/:/www/ -v ${PWD}/data/mysql:/var/lib/mysql/ -it -p443:443 test "/bin/zsh"
+	sudo rm -rf ./data/
+	# mkdir -p ./data/
+	# mkdir -p ./data/www
+	# mkdir -p ./data/mysql
+	docker build . -t test && docker run -v ${PWD}/data/www/:/www/ -v ${PWD}/data/mysql:/var/lib/mysql/ -it --privileged -p80:80 -p'443:443' test "/bin/zsh"
 
 up:
 	$(DOCKERCP) up --detach --build --wait
@@ -43,7 +46,7 @@ down:
 
 set_password:
 	$(call get_passwd,MY_SQL_ROOT_PASWD)
-	$(call get_passwd,MY_SQL_PASWD)
+	$(call get_passwd,WP_DB_PSWD)
 	$(call get_passwd,ROOT_PASWD)
 	$(call get_passwd,WP_ROOT_PASWD)
 	$(call get_passwd,WP_EDIT_PASWD)
@@ -83,7 +86,7 @@ list :
 	$(DOCKER) images
 
 stop :
-	$(DOCKER) stop $(shell docker images -q)
+	-if [[ ! -z $$(docker ps -aq) ]];then $(DOCKER) stop $(shell docker images -q) ;fi
 
 kill:
 	-if [[ ! -z $$(docker ps -aq) ]];then $(DOCKER) kill $(shell docker ps -aq) ;fi
@@ -91,7 +94,7 @@ kill:
 rm_all:
 	-if [[ ! -z $$(docker images -q) ]];then $(DOCKER) image rm -f $(shell docker images -q) ;fi
 
-clr: rm_all
+clr: stop kill rm_all
 	$(DOCKER) system prune -f
 	$(DOCKER) image prune -f
 	$(DOCKER) volume prune -f
