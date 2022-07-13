@@ -29,7 +29,7 @@ COPY ./index.html /www/index.html
 
 ################################################################################ MYSQL <
 
-RUN apk -U update && apk add  mysql mysql-client
+RUN apk -U update && apk add  mysql mysql-client perl
 
 ################################################################################ MYSQL >
 
@@ -41,17 +41,17 @@ php8-pdo php8-pdo_mysql php8-soap php8-posix php8-pecl-mcrypt \
 php8-gettext php8-ldap php8-ctype php8-dom php8-simplexml php8-phar \
 curl
 
-COPY ./wordpress.sql /root/wordpress.sql
+COPY ./wordpress.sql /wordpress.sql
 WORKDIR /www/
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 && chmod +x wp-cli.phar \
 && mv wp-cli.phar /bin/wp
 
-RUN wp core download --path=/www/wordpress --allow-root --locale=en_US --force
+RUN wp core download --path=/www/wordpress --allow-root --locale=en_US
 
 ################################################################################ WordPress >
 
-COPY ./setup.sh /tmp/setup.sh
+COPY ./setup.sh /setup.sh
 
-ENTRYPOINT [ "/bin/sh", "/tmp/setup.sh" ]
+ENTRYPOINT [ "/bin/sh", "/setup.sh" ]

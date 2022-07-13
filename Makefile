@@ -26,7 +26,7 @@ all: set_password down up
 
 test:
 	rm -rf ./data/
-	docker build . -t test && docker run -v ${PWD}/data/www/:/www/ -v ${PWD}/data/db:/var/lib/mysql/ -it -p80:80 test "/bin/zsh"
+	docker build . -t test && docker run -v ${PWD}/data/www/:/www/ -v ${PWD}/data/mysql:/var/lib/mysql/ -it -p443:443 test "/bin/zsh"
 
 up:
 	$(DOCKERCP) up --detach --build --wait
@@ -85,10 +85,11 @@ list :
 stop :
 	$(DOCKER) stop $(shell docker images -q)
 
-rm_all:
+kill:
 	-if [[ ! -z $$(docker ps -aq) ]];then $(DOCKER) kill $(shell docker ps -aq) ;fi
+
+rm_all:
 	-if [[ ! -z $$(docker images -q) ]];then $(DOCKER) image rm -f $(shell docker images -q) ;fi
-	rm -rf /home/gregoire/data/*
 
 clr: rm_all
 	$(DOCKER) system prune -f
