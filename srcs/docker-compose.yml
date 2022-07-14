@@ -7,16 +7,16 @@ services:
     networks:
       - net-nginx
       - net-php
-    expose:
-      - 443
     ports:
-      - "443:443"
+      - target: 443
+        published: 443
+        protocol: tcp
     restart: always
     env_file:
       - .env_secret
       - .env_config
-    volumes:
-      - ${HOME}/data/wordpress:/www/wordpress
+    volumes_from:
+      - wordpress
     depends_on:
      - wordpress
 
@@ -24,6 +24,8 @@ services:
     container_name: mysql
     build: ./mysql
     restart: always
+    ports:
+      - "3306:3306"
     networks:
       - net-php
       - net-db
@@ -37,6 +39,8 @@ services:
     build: ./wordpress
     container_name: wordpress
     restart: always
+    ports:
+      - "9000:9000"
     networks:
       - net-php
       - net-db
@@ -47,7 +51,7 @@ services:
     volumes:
       - ${HOME}/data/wordpress:/www/wordpress
     depends_on:
-      - mariadb
+      - mysql
 
 
 networks:

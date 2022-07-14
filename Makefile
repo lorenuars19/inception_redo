@@ -31,8 +31,17 @@ test:
 	# mkdir -p ./data/mysql
 	docker build . -t test && docker run -v $(shell pwd)/data/www/:/www/ -v $(shell pwd)/data/mysql:/var/lib/mysql/ -it --privileged -p'443:443' test "/bin/zsh"
 
+
+
 up:
+	mkdir -p $(HOME)/data
 	$(DOCKERCP) up --detach --build --wait
+	@-URL=http://localhost:80 ;\
+	URLSSL=https://localhost:443 ;\
+	echo $${URL} ;\
+	echo $${URLSSL} ;\
+	curl $${URL} ;\
+	curl -k $${URLSSL} ;
 
 # volumes:
 # 	@mkdir -p /home/gregoire/data/wordpress
@@ -43,6 +52,7 @@ force: down re
 
 down:
 	$(DOCKERCP) down --rmi all --volumes --remove-orphans
+	rm -rf $(HOME)/data
 
 set_password:
 	$(call get_passwd,MY_SQL_ROOT_PASWD)
@@ -59,24 +69,6 @@ ifeq (cp,$(firstword $(MAKECMDGOALS)))
 endif
 cp:
 	$(DOCKERCP) $(filter-out $@, $(MAKECMDGOALS))
-
-nginx_build:
-	$(DOCKER) build --progress tty -t nginxcont srcs/nginx
-
-nginx_run:
-	$(DOCKER) run -it -v $$PWD:/home -p 443:443 nginxcont /bin/zsh
-
-database_build:
-	$(DOCKER) build --progress tty -t databasecont srcs/database
-
-database_run:
-	$(DOCKER) run -it -v $$PWD:/home -p 443:443 databasecont /bin/zsh
-
-wordpress_build:
-	$(DOCKER) build --progress tty -t wordpresscont srcs/wordpress
-
-wordpress_run:
-	$(DOCKER) run -it -v $$PWD:/home -p 443:443 wordpresscont /bin/zsh
 
 ips:
 	$(DOCKER) ps -a
