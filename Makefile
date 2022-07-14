@@ -51,7 +51,7 @@ set_password:
 	$(call get_passwd,WP_ADMIN_PASWD)
 	$(call get_passwd,WP_EDIT_PASWD)
 
-	$(DOCKERCP) config > $(LOG_FILE)_dockercp_config
+	# $(DOCKERCP) config > $(LOG_FILE)_dockercp_config
 
 ifeq (cp,$(firstword $(MAKECMDGOALS)))
   RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
