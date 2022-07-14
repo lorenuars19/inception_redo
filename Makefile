@@ -26,10 +26,10 @@ all: set_password down up
 
 test:
 	sudo rm -rf ./data/
-	# mkdir -p ./data/
+	mkdir -p ./data/
 	# mkdir -p ./data/www
 	# mkdir -p ./data/mysql
-	docker build . -t test && docker run -v ${PWD}/data/www/:/www/ -v ${PWD}/data/mysql:/var/lib/mysql/ -it --privileged -p'443:443' test "/bin/zsh"
+	docker build . -t test && docker run -v $(shell pwd)/data/www/:/www/ -v $(shell pwd)/data/mysql:/var/lib/mysql/ -it --privileged -p'443:443' test "/bin/zsh"
 
 up:
 	$(DOCKERCP) up --detach --build --wait
@@ -48,7 +48,7 @@ set_password:
 	$(call get_passwd,MY_SQL_ROOT_PASWD)
 	$(call get_passwd,WP_DB_PSWD)
 	$(call get_passwd,ROOT_PASWD)
-	$(call get_passwd,WP_ROOT_PASWD)
+	$(call get_passwd,WP_ADMIN_PASWD)
 	$(call get_passwd,WP_EDIT_PASWD)
 
 	$(DOCKERCP) config > $(LOG_FILE)_dockercp_config

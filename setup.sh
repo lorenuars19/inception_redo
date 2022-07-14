@@ -1,14 +1,6 @@
 export PROMPT="%m@%n:%~ $ "
 ################################################################################ MYSQL <
 
-set -x
-
-WP_DB_NAME='wordpress'
-MY_SQL_ROOT_PASWD='pswd'
-WP_DB_PSWD='pswd'
-WP_DB_USER='lorenuar'
-WP_DB_HOST='localhost'
-
 /usr/bin/mysql_install_db --datadir="/var/lib/mysql/" --skip-test-db
 chown -R mysql:mysql /var/lib/mysql
 mkdir -p /run/mysqld
@@ -76,9 +68,11 @@ echo ===========================================================================
 wp core config --path=/www/wordpress --allow-root --url=localhost --dbhost=localhost --dbname=wordpress --dbuser=${WP_DB_USER} --dbpass=${WP_DB_PSWD}
 chmod 744 ./wordpress/wp-config.php
 echo =========================================================================== WP INSTALL
-wp core install --path=/www/wordpress --allow-root --url=lorenuar.42.fr --title="Title" --admin_name=wordpress_admin --admin_password=pswd --admin_email=admin@lorenuar.42.fr
+wp core install --path=/www/wordpress --allow-root --url=lorenuar.42.fr --title="Title" --admin_name=lorenuar --admin_password=${WP_ADMIN_PSWD} --admin_email=lorenuar@lorenuar.42.fr
 
-# /usr/sbin/php-fpm8 --nodaemonize &
+wp user create --path=/www/wordpress --allow-root editor editor@lorenuar.42.fr --role='editor' --user_pass=${WP_EDIT_PSWD}
+
+/usr/sbin/php-fpm8 --nodaemonize &
 ################################################################################ WordPress >
 
 ################################################################################ NGINX <
