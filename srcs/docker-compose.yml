@@ -1,6 +1,61 @@
+version: "3.7"
+
 services:
   nginx:
-    image: nginx
-    image-name: nginx
+    build: ./nginx/
+    container_name: nginx
+    networks:
+      - net-nginx
+      - net-php
+    expose:
+      - 443
     ports:
-    - "443:443"
+      - "443:443"
+    restart: always
+    env_file:
+      - .env_secret
+      - .env_config
+    volumes:
+      - ${VOL_FLD_DATA}/wordpress:/${VOL_WP_PATH}
+    depends_on:
+     - wordpress
+
+  mysql:
+    container_name: mysql
+    build: ./mysql
+    restart: always
+    networks:
+      - net-php
+      - net-db
+    env_file:
+      - .env_secret
+      - .env_config
+    volumes:
+      - ${VOL_FLD_DATA}/mariadb:${VOL_DB_PATH}
+
+  wordpress:
+    build: ./wordpress
+    container_name: wordpress
+    restart: always
+    networks:
+      - net-php
+      - net-db
+      - net-nginx
+    env_file:
+      - .env_secret
+      - .env_config
+    volumes:
+      - ${VOL_FLD_DATA}/wordpress:${VOL_WP_PATH}
+    depends_on:
+      - mariadb
+
+
+networks:
+  net-nginx:
+    driver: bridge
+  net-php:
+    driver: bridge
+    internal: true
+  net-db:
+    driver: bridge
+    internal: true

@@ -5,7 +5,7 @@ FROM alpine:3.16
 RUN apk -U upgrade && apk add zsh vim
 
 # NGINX
-RUN apk -U upgrade && apk add nginx awall iptables ip6tables
+RUN apk -U upgrade && apk add nginx
 
 # Add user www and set permissions
 RUN adduser -D -g 'www' www \
