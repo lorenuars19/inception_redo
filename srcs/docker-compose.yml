@@ -16,7 +16,7 @@ services:
       - .env_secret
       - .env_config
     volumes:
-      - ${VOL_FLD_DATA}/wordpress:/${VOL_WP_PATH}
+      - ${HOME}/data/wordpress:/www/wordpress
     depends_on:
      - wordpress
 
@@ -31,7 +31,7 @@ services:
       - .env_secret
       - .env_config
     volumes:
-      - ${VOL_FLD_DATA}/mariadb:${VOL_DB_PATH}
+      -  ${HOME}/data/mysql:/var/lib/mysql
 
   wordpress:
     build: ./wordpress
@@ -45,7 +45,7 @@ services:
       - .env_secret
       - .env_config
     volumes:
-      - ${VOL_FLD_DATA}/wordpress:${VOL_WP_PATH}
+      - ${HOME}/data/wordpress:/www/wordpress
     depends_on:
       - mariadb
 
