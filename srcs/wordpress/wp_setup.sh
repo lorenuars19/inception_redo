@@ -10,6 +10,6 @@ wp core install --path=/www/wordpress --allow-root --url=lorenuar.42.fr --title=
 
 wp user create --path=/www/wordpress --allow-root editor editor@lorenuar.42.fr --role='editor' --user_pass=${WP_EDIT_PSWD}
 
-# sed -i "/pm.status_/s/^;//g" /etc/php8/php-fpm.d/www.conf
+sed -i "/s/listen = .*/listen = 9000/g" /etc/php8/php-fpm.d/www.conf
 
 /usr/sbin/php-fpm8 --nodaemonize
