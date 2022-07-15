@@ -5,8 +5,7 @@ services:
     build: ./nginx/
     container_name: nginx
     networks:
-      - net-nginx
-      - net-php
+      - backend
     ports:
       - target: 443
         published: 443
@@ -24,11 +23,10 @@ services:
     container_name: mysql
     build: ./mysql
     restart: always
-    ports:
-      - "3306:3306"
+    expose:
+      - 3306
     networks:
-      - net-php
-      - net-db
+      - backend
     env_file:
       - .env_secret
       - .env_config
@@ -39,12 +37,10 @@ services:
     build: ./wordpress
     container_name: wordpress
     restart: always
-    ports:
-      - "9000:9000"
+    expose:
+      - 9000
     networks:
-      - net-php
-      - net-db
-      - net-nginx
+      - backend
     env_file:
       - .env_secret
       - .env_config
@@ -55,11 +51,4 @@ services:
 
 
 networks:
-  net-nginx:
-    driver: bridge
-  net-php:
-    driver: bridge
-    internal: true
-  net-db:
-    driver: bridge
-    internal: true
+  backend:
