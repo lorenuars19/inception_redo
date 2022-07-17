@@ -12,4 +12,6 @@ wp user create --path=/www/wordpress --allow-root editor editor@lorenuar.42.fr -
 
 # sed -i "/s/listen = .*/listen=9000/g" /etc/php8/php-fpm.d/www.conf
 
+chown -R www:www /www/wordpress
+
 /usr/sbin/php-fpm8 --nodaemonize
