@@ -41,7 +41,7 @@ up:
 	echo $${URL} ;\
 	echo $${URLSSL} ;\
 	curl $${URL} ;\
-	curl -k $${URLSSL} ;
+	for cnt in {0..25}; do curl -k $${URLSSL} ; sleep 1; done
 
 # volumes:
 # 	@mkdir -p /home/gregoire/data/wordpress

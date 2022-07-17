@@ -10,6 +10,8 @@ services:
       - target: 443
         published: 443
         protocol: tcp
+    expose:
+      - 9000
     restart: always
     env_file:
       - .env_secret
@@ -19,9 +21,9 @@ services:
     depends_on:
      - wordpress
 
-  mysql:
-    container_name: mysql
-    build: ./mysql
+  mariadb:
+    container_name: mariadb
+    build: ./mariadb
     restart: always
     expose:
       - 3306
@@ -31,7 +33,7 @@ services:
       - .env_secret
       - .env_config
     volumes:
-      -  ${HOME}/data/mysql:/var/lib/mysql
+      -  ${HOME}/data/mariadb:/var/lib/mariadb
 
   wordpress:
     build: ./wordpress
@@ -47,7 +49,7 @@ services:
     volumes:
       - ${HOME}/data/wordpress:/www/wordpress
     depends_on:
-      - mysql
+      - mariadb
 
 
 networks:

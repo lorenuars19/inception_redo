@@ -31,7 +31,7 @@ EXPOSE 443
 
 ################################################################################ MYSQL <
 
-RUN apk -U update && apk add  mysql mysql-client perl
+RUN apk -U update && apk add mariadb mariadb-client
 
 ################################################################################ MYSQL >
 
