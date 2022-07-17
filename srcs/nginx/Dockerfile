@@ -6,7 +6,9 @@ RUN apk -U upgrade && apk add nginx openssl
 RUN adduser -D -g 'www' www \
 	&& chown -R www:www /var/lib/nginx \
 	&& mkdir /www \
-	&& chown -R www:www /www
+	&& mkdir /www/wordpress \
+	&& chown -R www:www /www \
+	&& chown -R www:www /www/wordpress
 
 # Generate Self-signed certificates with openssl
 RUN mkdir -p /nginx/ && mkdir -p /etc/nginx/ssl \
