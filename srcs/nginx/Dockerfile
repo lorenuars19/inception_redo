@@ -20,4 +20,6 @@ RUN mkdir -p /nginx/ && mkdir -p /etc/nginx/ssl \
 
 COPY ./nginx.conf /etc/nginx/http.d/default.conf
 
+RUN ln -s /www/wordpress /etc/nginx/sites-enabled/
+
 ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]
