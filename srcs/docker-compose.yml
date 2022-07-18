@@ -41,6 +41,7 @@ services:
     expose:
       - 9000
     networks:
+      - out
       - backend
     env_file:
       - .env_secret
