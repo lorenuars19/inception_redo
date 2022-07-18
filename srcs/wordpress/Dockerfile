@@ -16,5 +16,6 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 RUN wp core download --path=/www/wordpress --allow-root --locale=en_US
 
 COPY ./wp_setup.sh /setup.sh
+COPY ./www.conf /etc/php8/php-fpm.d/www.conf
 
 ENTRYPOINT ["/bin/sh", "/setup.sh"]
