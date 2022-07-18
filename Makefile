@@ -36,7 +36,7 @@ ngx:
 wps:
 	docker exec -it wordpress sh
 mdb:
-	docker exec -it mariadbß sh
+	docker exec -it mariadb sh
 
 up:
 	mkdir -p $(HOME)/data
