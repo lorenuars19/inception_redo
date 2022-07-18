@@ -13,12 +13,7 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 && chmod +x wp-cli.phar \
 && mv wp-cli.phar /bin/wp
 
-RUN adduser -D -g 'www' www \
-	&& chown -R www:www /var/lib/nginx \
-	&& mkdir /www \
-	&& mkdir /www/wordpress \
-	&& chown -R www:www /www \
-	&& chown -R www:www /www/wordpress
+
 
 RUN wp core download --path=/www/wordpress --allow-root --locale=en_US
 

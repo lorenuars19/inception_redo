@@ -1,3 +1,9 @@
+adduser -D -g 'www' www \
+&& mkdir -p /www \
+&& mkdir -p /www/wordpress \
+&& chown -R www:www /www \
+&& chown -R www:www /www/wordpress
+
 echo =========================================================================== WP DOWNLOAD
 mkdir -p /www/wordpress
 wp core download --path=/www/wordpress --allow-root --locale=en_US
@@ -10,6 +16,5 @@ wp core install --path=/www/wordpress --allow-root --url=lorenuar.42.fr --title=
 
 wp user create --path=/www/wordpress --allow-root editor editor@lorenuar.42.fr --role='editor' --user_pass=${WP_EDIT_PSWD}
 
-chown -R www:www /www/wordpress
 
 /usr/sbin/php-fpm8 --nodaemonize
