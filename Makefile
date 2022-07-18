@@ -31,7 +31,12 @@ test:
 	# mkdir -p ./data/mysql
 	docker build . -t test && docker run -v $(shell pwd)/data/www/:/www/ -v $(shell pwd)/data/mysql:/var/lib/mysql/ -it --privileged -p'443:443' test "/bin/zsh"
 
-
+ngx:
+	docker exec -it nginx sh
+wps:
+	docker exec -it wordpress sh
+mdb:
+	docker exec -it mariadbß sh
 
 up:
 	mkdir -p $(HOME)/data

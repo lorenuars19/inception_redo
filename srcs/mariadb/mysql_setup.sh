@@ -1,5 +1,5 @@
 
-/usr/bin/mysql_install_db --datadir="/var/lib/mysql/" --skip-test-db
+/usr/bin/mariadb_install_db --datadir="/var/lib/mysql/" --skip-test-db
 chown -R mysql:mysql /var/lib/mysql
 mkdir -p /run/mysqld
 chown -R mysql:mysql /run/mysqld
