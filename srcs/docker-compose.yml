@@ -6,6 +6,7 @@ services:
     container_name: nginx
     networks:
       - backend
+      - out
     ports:
       - target: 443
         published: 443
